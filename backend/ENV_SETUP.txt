@@ -1,0 +1,8 @@
+# Add this to your .env file:
+
+# Google Gemini API Key (Get from: https://makersuite.google.com/app/apikey)
+GOOGLE_API_KEY=your_google_api_key_here
+
+# Pinecone
+PINECONE_API_KEY=your_pinecone_api_key_here
+PINECONE_INDEX_NAME=medical-chatbot

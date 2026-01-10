@@ -1,0 +1,63 @@
+name: CI (build only)
+
+on:
+  pull_request:
+    branches: [ main ]
+  push:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        app: [admin, docbook, backend]
+    defaults:
+      run:
+        working-directory: ${{ matrix.app }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Use Node 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: ${{ matrix.app }}/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run tests
+        run: npm test --if-present
+
+      - name: Build
+        run: npm run build --if-present
+
+      - name: AI Service Health Check (Backend only)
+        if: matrix.app == 'backend'
+        run: |
+          echo "Checking AI service configuration..."
+          node -e "
+            import('./config/aiConfig.js').then(config => {
+              const status = config.getAIStatus();
+              console.log('AI Configuration Status:', JSON.stringify(status, null, 2));
+              if (!status.configured) {
+                console.warn('AI service not fully configured - this is expected in CI');
+              }
+            }).catch(err => {
+              console.log('AI config check completed with warnings:', err.message);
+            });
+          "
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.app }}-build
+          path: |
+            ${{ matrix.app }}/dist
+            ${{ matrix.app }}/build
+          if-no-files-found: ignore
+
+
+
