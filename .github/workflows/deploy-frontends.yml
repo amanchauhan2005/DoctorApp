@@ -1,0 +1,32 @@
+name: Deploy Frontends (Vercel)
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - "admin/**"
+      - "docbook/**"
+      - ".github/workflows/deploy-frontends.yml"
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        app: [admin, docbook]
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Deploy to Vercel
+        uses: amondnet/vercel-action@v25
+        with:
+          vercel-token: ${{ secrets.VERCEL_TOKEN }}
+          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
+          vercel-project-id: ${{ secrets[format('APP_%s_VERCEL_PROJECT_ID', matrix.app)] }}
+          working-directory: ${{ matrix.app }}
+          prod: true
+
+
+
+
+

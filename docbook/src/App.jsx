@@ -9,8 +9,10 @@ import About from './pages/About'
 import Appointement from './pages/Appointement'
 import Myappointement from './pages/Myappointement'
 import Myprofile from './pages/Myprofile'
+import ChatbotPage from './pages/ChatbotPage'
 import Navbar from "./components/Navbar"
 import Footer from "./components/Footer"
+import ChatbotWidget from "./components/ChatbotWidget"
 function App() {
 
   return (
@@ -29,9 +31,10 @@ function App() {
         <Route path='/Login' element={<Login/>}/>
         <Route path='/Contact' element={<Contact/>}/>
         <Route path='/Myappointement/:id' element={<Appointement/>}/>
-        
+        <Route path='/ai-chat' element={<ChatbotPage/>}/>
       </Routes>
       <Footer/>
+      <ChatbotWidget/>
     </div>
     </>
   )

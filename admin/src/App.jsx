@@ -4,11 +4,13 @@ import { ToastContainer, toast } from 'react-toastify';
 import { AdminContext } from './context/Admincontext';
 import Navbar from './components/Navbar';
 import Sidebar from './components/Sidebar';
+import ChatbotWidget from './components/ChatbotWidget';
 import {Route,Routes} from 'react-router-dom';
 import {AllApointment} from './pages/Admin/AllApointment';
 import {Dashboard} from './pages/Admin/Dashboard';
 import {AddDoctor} from './pages/Admin/AddDoctor';
 import { DoctorsList } from './pages/Admin/DoctorsList';
+import ChatbotPage from './pages/ChatbotPage';
 const App = () => {
   const {atoken}=useContext(AdminContext)
 
@@ -25,8 +27,10 @@ const App = () => {
           <Route path='/all-appointments' element={<AllApointment/>}/>
           <Route path='/add-doctor' element={<AddDoctor/>}/>
           <Route path='/doctor-list' element={<DoctorsList/>}/>
+          <Route path='/ai-chat' element={<ChatbotPage/>}/>
         </Routes>
       </div>
+      <ChatbotWidget/>
     </div>
   ):(
     <>
