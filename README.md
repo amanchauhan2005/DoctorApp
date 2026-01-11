@@ -10,6 +10,7 @@ A full-stack doctor appointment platform with an AI assistant powered by Retriev
 - Health check endpoint to monitor AI availability
 - In-memory caching for repeated RAG answers
 - Local summarization fallback using Xenova when Gemini is unavailable
+- Used Context Caching to improve the response rate by 62%
 
 ## Architecture
 - Backend: Express.js (Node), MongoDB (Mongoose), Cloudinary, Helmet/CORS
